@@ -5,8 +5,8 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Runtime stage
-FROM openjdk:21-jdk-slim
+# Runtime stage - FIXED: Use eclipse-temurin instead of openjdk
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY --from=builder /app/target/BK_sharing-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080

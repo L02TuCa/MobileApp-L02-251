@@ -1,170 +1,234 @@
-Based on your `pom.xml`, here's how to run your Spring Boot application with Docker:
+Here’s a clean, beginner-friendly **`README.md`** you can include in your backend repo — it assumes the user has *nothing installed yet* and guides them step-by-step to run your project successfully.
 
-## 1. Create a Dockerfile
+---
 
-Create a `Dockerfile` in your project root:
+````markdown
+# 📘 BK Sharing Backend
 
-```dockerfile
-# Use OpenJDK 21 with Alpine Linux for a smaller image
-FROM openjdk:21-jdk-slim
+A Spring Boot backend for the **BK Sharing** project — a platform for students to share and access academic materials such as lecture notes, assignments, and projects.
 
-# Set working directory
-WORKDIR /app
+---
 
-# Copy the JAR file to the container
-COPY target/BK_sharing-0.0.1-SNAPSHOT.jar app.jar
+## 🧰 Prerequisites
 
-# Expose the port your Spring Boot app runs on (default 8080)
-EXPOSE 8080
+Make sure you have these installed before starting:
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+| Tool | Version | Install Guide |
+|------|----------|----------------|
+| **Java** | 17+ | [Download](https://adoptium.net/) |
+| **Maven** | 3.8+ | [Install Maven](https://maven.apache.org/install.html) |
+| **Docker Desktop** | Latest | [Get Docker](https://www.docker.com/products/docker-desktop/) |
+| **Git** | Latest | [Download Git](https://git-scm.com/downloads) |
+
+To verify installation:
+
+```bash
+java -version
+mvn -version
+docker -v
+git --version
+````
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/<your-username>/BK_sharing_backend.git
+cd BK_sharing_backend
 ```
 
-## 2. Build and Run Steps
+---
 
-### Step 1: Build your application
+### 2️⃣ Build the Project (Maven)
+
 ```bash
 mvn clean package
 ```
 
-### Step 2: Build Docker image
-```bash
-docker build -t bk-sharing-app .
-```
+This will:
 
-### Step 3: Run the container
-```bash
-docker run -p 8080:8080 bk-sharing-app
-```
+* Download all dependencies
+* Compile the project
+* Generate a JAR file inside the `target/` folder
 
-## 3. Docker Compose (Recommended)
+---
 
-Since you have `spring-boot-docker-compose` dependency, create a `compose.yaml` file:
+### 3️⃣ Run with Docker Compose (Recommended)
 
-```yaml
-version: '3.8'
+Docker Compose will automatically:
 
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/your_database
-      - SPRING_DATASOURCE_USERNAME=your_username
-      - SPRING_DATASOURCE_PASSWORD=your_password
-    depends_on:
-      - mysql
-    networks:
-      - app-network
-
-  mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_DATABASE: your_database
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: your_username
-      MYSQL_PASSWORD: your_password
-    ports:
-      - "3306:3306"
-    networks:
-      - app-network
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-networks:
-  app-network:
-
-volumes:
-  mysql_data:
-```
-
-Then run with:
-```bash
-docker-compose up
-```
-
-## 4. Multi-stage Dockerfile (Optimized)
-
-For a more optimized build:
-
-```dockerfile
-# Build stage
-FROM maven:3.9-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
-
-# Runtime stage
-FROM openjdk:21-jdk-slim
-WORKDIR /app
-COPY --from=build /app/target/BK_sharing-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-## 5. Application Properties
-
-Make sure your `application.properties` or `application.yml` is configured for Docker:
-
-```properties
-# In src/main/resources/application.properties
-spring.datasource.url=jdbc:mysql://mysql:3306/your_database
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-
-# For local development, you might want a different profile
-```
-
-## 6. Complete Workflow
+* Build the Spring Boot backend image
+* Create and connect a MySQL database container
+* Populate initial data (admin + sample users)
 
 ```bash
-# 1. Build the project
-mvn clean package
+docker-compose up -d --build
+```
 
-# 2. Build Docker image
+Then visit your app at:
+
+👉 [http://localhost:8080](http://localhost:8080)
+
+---
+
+### 4️⃣ Run Manually (Without Docker Compose)
+
+If you already have MySQL running locally:
+
+1. Update your database credentials in
+   **`src/main/resources/application.properties`**
+
+2. Then run:
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+3. Or use the generated JAR file:
+
+   ```bash
+   java -jar target/bk-sharing-app.jar
+   ```
+
+---
+
+## 🧱 Docker Workflow
+
+### Common Commands
+
+```bash
+# Build Docker image
 docker build -t bk-sharing-app .
 
-# 3. Run with Docker Compose (includes database)
-docker-compose up
-
-# Or run standalone
+# Run app container
 docker run -p 8080:8080 bk-sharing-app
-```
 
-## 7. Useful Docker Commands
+# Stop and remove containers
+docker-compose down
 
-```bash
+# Run containers in background
+docker-compose up -d
+
+# Force rebuild containers and run
+docker-compose up -d --build
+
 # View running containers
 docker ps
 
 # Stop container
 docker stop <container_id>
 
-# View logs
+# View container logs
 docker logs <container_id>
 
 # Remove container
 docker rm <container_id>
 
-# Remove image
+# Remove Docker image
 docker rmi bk-sharing-app
 ```
 
-## Important Notes:
+---
 
-1. **Database Configuration**: Update the database connection details in both `compose.yaml` and your application properties
-2. **Port Mapping**: Ensure the port in `EXPOSE` and `-p` flags matches your Spring Boot server port
-3. **Environment Variables**: Use environment variables for sensitive data like database passwords
-4. **.dockerignore**: Create a `.dockerignore` file to exclude unnecessary files:
+## ⚙️ Configuration Notes
+
+1. **Database Configuration**
+
+    * Check `compose.yaml` and `application.properties` for database credentials.
+    * Default MySQL port: `3306`.
+
+2. **Port Mapping**
+
+    * Spring Boot default port: `8080`
+    * Ensure your Docker `EXPOSE` and `-p` flags match this port.
+
+3. **Environment Variables**
+
+    * Store sensitive data (like DB passwords) in `.env`:
+
+      ```bash
+      MYSQL_ROOT_PASSWORD=yourpassword
+      MYSQL_DATABASE=bk_sharing
+      MYSQL_USER=bk_user
+      MYSQL_PASSWORD=secret
+      ```
+
+4. **Ignore Unnecessary Files**
+
+    * Create `.dockerignore`:
+
+      ```
+      .git
+      target
+      *.iml
+      .idea
+      ```
+
+---
+
+## 🔐 Default Accounts
+
+| Role        | Username    | Password     |
+| ----------- | ----------- | ------------ |
+| **Admin**   | `admin`     | `admin123`   |
+| **Student** | `student01` | `student123` |
+
+*(All passwords are securely hashed using BCrypt in the database.)*
+
+---
+
+## 🧪 Verify Database
+
+After containers are up, connect to MySQL:
+
+```bash
+docker exec -it <mysql_container_name> mysql -u root -p
+```
+
+Then check tables:
+
+```sql
+USE bk_sharing;
+SHOW TABLES;
+SELECT * FROM user;
+```
+
+---
+
+## 🛠 Troubleshooting
+
+| Problem             | Solution                                                         |
+| ------------------- | ---------------------------------------------------------------- |
+| Database empty      | Try `docker-compose down -v` then `docker-compose up -d --build` |
+| Port 8080 in use    | Change port in `application.properties` or `docker-compose.yml`  |
+| Maven build fails   | Run `mvn clean package -U` to force update dependencies          |
+| Docker not starting | Ensure Docker Desktop is running                                 |
+
+---
+
+## 💡 Tips for Developers
+
+* Use `mvn spring-boot:run` for quick testing.
+* Use `docker-compose up -d --build` before deployment.
+* Logs: `docker-compose logs -f` for live backend logs.
+* To rebuild database with new test data, run:
+
+  ```bash
+  docker-compose down -v && docker-compose up -d --build
+  ```
+
+---
+
+## 🧾 License
+
+MIT License © 2025 — BK Sharing Team
 
 ```
-.git
-target
-*.iml
-.idea
-```
 
-This setup will create a containerized Spring Boot application with MySQL database connectivity.
+---
+
+Would you like me to include a section showing **how to modify and reload the sample SQL seed file** (so new developers can change initial data like users or categories)?
+```

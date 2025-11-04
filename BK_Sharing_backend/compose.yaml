@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build: .
@@ -9,24 +7,33 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bk_sharing_db
       - SPRING_DATASOURCE_USERNAME=app_dev
       - SPRING_DATASOURCE_PASSWORD=123456789
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION=true
     depends_on:
-      - mysql
+      mysql:
+          condition: service_healthy
     networks:
       - app-network
 
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: your_database
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: bk_sharing_db
+      MYSQL_ROOT_PASSWORD: root123456789
       MYSQL_USER: app_dev
-      MYSQL_PASSWORD: your_password
+      MYSQL_PASSWORD: 123456789
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - app-network
     volumes:
       - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      timeout: 20s
+      retries: 10
 
 networks:
   app-network:
