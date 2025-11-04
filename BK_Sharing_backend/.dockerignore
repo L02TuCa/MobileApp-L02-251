@@ -1,0 +1,11 @@
+.git
+.gitignore
+README.md
+target/
+*.iml
+.idea/
+.mvn/
+logs/
+Dockerfile*
+docker-compose*
+.dockerignore
