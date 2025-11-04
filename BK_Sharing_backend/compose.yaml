@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bk_sharing_db
+      - SPRING_DATASOURCE_USERNAME=app_dev
+      - SPRING_DATASOURCE_PASSWORD=123456789
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: your_database
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: app_dev
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
