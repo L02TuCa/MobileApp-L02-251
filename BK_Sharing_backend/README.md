@@ -36,8 +36,9 @@ git --version
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/<your-username>/BK_sharing_backend.git
-cd BK_sharing_backend
+git clone https://github.com/L02TuCa/MobileApp-L02-251.git
+git checkout backend/code
+cd MobileApp-L02-251/BK_sharing_backend
 ```
 
 ---
@@ -70,7 +71,7 @@ docker-compose up -d --build
 
 Then visit your app at:
 
-👉 [http://localhost:8080](http://localhost:8080)
+👉 [http://localhost:8080](http://localhost:8080/)
 
 ---
 
