@@ -16,3 +16,17 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+
+# For docs
+docs/_site
+docs/.sass-cache
+docs/.jekyll-metadata
+docs/node_modules
+docs/assets
+docs/yarn-error.log
+docs/.yarnclean
+
+# editors
+docs/.idea
+docs/.jekyll-cache

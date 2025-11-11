@@ -1,0 +1,16 @@
+app:
+  screenshots: Screenshots
+  description: Description
+  featured: Featured in
+
+footer:
+  copyright: Made with ❤️ in Vietnam by <a href="https://www.sandoche.com" target="_blank">L02-TuCa</a>
+  links:
+    - title: Github
+      url: https://github.com/L02TuCa/MobileApp-L02-251
+      target: _blank
+    - title: Donate
+      url: https://paypal.me/kanbanote
+      target: _blank
+    - title: Privacy
+      url: /privacy
