@@ -1,0 +1,339 @@
+/* 1. CÀI ĐẶT CƠ BẢN (RESET CSS) */
+:root {
+    --primary-color: #0065CC; /* Màu xanh Bách Khoa - Bạn hãy đổi theo Design System của bạn */
+    --secondary-color: #F0F4F8;
+    --text-dark: #1A202C;
+    --text-light: #4A5568;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--white);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 2. HERO SECTION */
+.hero-section {
+    padding: 80px 0;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Màu nền nhẹ */
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.text-block {
+    flex: 1;
+}
+
+.badge {
+    background-color: #e2e8f0;
+    color: var(--text-light);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin: 20px 0;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+/* BUTTONS */
+.cta-group {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.image-block {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-img {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15)); /* Đổ bóng cho đẹp */
+}
+
+/* 3. FEATURES SECTION */
+.features-section {
+    padding: 80px 0;
+    background-color: var(--white);
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 50px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Tự động chia cột */
+    gap: 30px;
+}
+
+.feature-card {
+    padding: 30px;
+    border-radius: 12px;
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
+.feature-card .icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/* 4. SHOWCASE SECTION */
+.showcase-section {
+    padding: 80px 0;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+/* 5. FOOTER */
+footer {
+    background-color: var(--text-dark);
+    color: var(--white);
+    padding: 40px 0;
+    text-align: center;
+}
+
+.team-list {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+}
+
+.team-list li {
+    margin: 5px 0;
+    color: #a0aec0;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column-reverse; /* Đảo ngược để ảnh lên trên text khi xem mobile */
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .subtitle {
+        margin: 0 auto 30px auto;
+    }
+
+    .cta-group {
+        justify-content: center;
+    }
+}
+
+/* Class chỉnh riêng cho icon hình ảnh mới */
+.custom-feature-icon {
+    width: 60px;        /* Kích thước vừa phải cho icon (bạn có thể tăng lên 80px nếu thích to) */
+    height: auto;       /* Giữ nguyên tỉ lệ hình, không bị méo */
+    margin-bottom: 20px; /* Tạo khoảng cách với tiêu đề bên dưới */
+    
+    /* Hiệu ứng đổ bóng nhẹ cho icon nổi lên (tùy chọn) */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    
+    /* Hiệu ứng khi di chuột vào (hover) cho sinh động */
+    transition: transform 0.3s ease;
+}
+
+/* Khi di chuột vào cả cái thẻ card thì icon nhảy lên một chút */
+.feature-card:hover .custom-feature-icon {
+    transform: scale(1.1); /* Phóng to nhẹ lên 10% */
+}
+
+/* Style cho phần About mới */
+.about-section {
+    padding: 60px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Chia 3 cột tự động */
+    gap: 30px;
+}
+
+.about-card {
+    padding: 25px;
+    border-radius: 12px;
+    background-color: #F7FAFC; /* Màu xám rất nhạt */
+    border: 1px solid #E2E8F0;
+}
+
+.about-card h3 {
+    color: var(--primary-color); /* Đồng bộ màu xanh của App */
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+}
+
+/* Làm nổi bật thẻ Giải pháp ở giữa */
+.about-card.highlight {
+    background-color: #EBF8FF; /* Xanh nhạt */
+    border-color: #BEE3F8;
+}
+
+/* --- STYLE CHO PHẦN SHOWCASE ZIGZAG MỚI --- */
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 60px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.showcase-zigzag {
+    display: flex;
+    flex-direction: column;
+    gap: 100px; /* Khoảng cách lớn giữa các màn hình cho thoáng */
+}
+
+.zigzag-item {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 60px; /* Khoảng cách giữa ảnh và text */
+}
+
+/* Class để đảo ngược thứ tự cho item thứ 2 */
+.zigzag-item.reverse {
+    flex-direction: row-reverse;
+}
+
+.zigzag-image {
+    flex: 1;
+    /* Tạo hiệu ứng nền hoặc bóng cho ảnh nổi bật hơn */
+    position: relative;
+}
+
+/* Style cho ảnh màn hình điện thoại */
+.zigzag-image img {
+    width: 100%;
+    max-width: 350px; /* Giới hạn chiều rộng để không quá to */
+    height: auto;
+    border-radius: 20px; /* Bo tròn góc giống điện thoại */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Đổ bóng sang trọng */
+    display: block;
+    margin: 0 auto; /* Căn giữa ảnh trong block của nó */
+}
+
+.zigzag-content {
+    flex: 1;
+}
+
+.zigzag-content h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.zigzag-content p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+/* Style cho list dấu tích nhỏ bên cạnh */
+.feature-list-small {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list-small li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa icon và chữ */
+    font-weight: 500;
+}
+
+/* --- RESPONSIVE CHO MOBILE --- */
+@media (max-width: 768px) {
+    .zigzag-item,
+    .zigzag-item.reverse {
+        flex-direction: column; /* Trên mobile thì xếp chồng hết */
+        gap: 40px;
+        text-align: center;
+    }
+
+    .zigzag-image img {
+        max-width: 80%; /* Ảnh nhỏ lại chút trên mobile */
+    }
+    
+    .feature-list-small li {
+        justify-content: center; /* Căn giữa list trên mobile */
+    }
+}
